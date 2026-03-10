@@ -1,8 +1,8 @@
 # ☘️ **Lenwy SCM - ESM Version**
 
-**Lenwy SCM** atau **Lenwy Switch Case Modular** adalah sebuah starter-kit (base) bot whatsapp berbasis node.Js yang dirancang menggunakan arsitektur ESM (Ecmascript Modules). Base ini menggunakan pustaka Baileys yang ringan, modular, dan mudah dikembangkan untuk kebutuhan bot multi-platform.
+**Lenwy SCM (Lenwy Switch Case Modular)** adalah starter-kit bot WhatsApp berbasis **Node.js** yang dirancang menggunakan arsitektur **ESM (ECMAScript Modules)**. Base ini menggunakan pustaka **Baileys** yang ringan, modular, dan mudah dikembangkan untuk berbagai kebutuhan bot.
 
-Dengan memecah fungsi switch case menjadi modular memungkinkan kode lebih mudah dibaca, dikelola, dan tentunya tidak menumpuk dalam satu file.
+Dengan memecah sistem **switch case** menjadi modul-modul terpisah, struktur kode menjadi lebih rapi, mudah dibaca, dan lebih mudah dikelola.
 
 ---
 
