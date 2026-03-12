@@ -933,6 +933,163 @@ switch (command) {
     }
   }
 ```
+**[+] Contoh kode Lainnya :**
+```js
+// ./WhatsApp/case/owner/fitur.js
+
+export default async function handler(leni) {
+  const { command, q, msg, LenwyText, lenwy, replyJid } = leni;
+
+  switch (command) {
+    case "addfitur":
+      {
+        if (!q)
+          return LenwyText(
+            "*Contoh: .Addfitur [Kategori] [Nama]*\n\n*Harap Reply Pesan Berisikan Kode*",
+          );
+
+        const args = q.split(" ");
+        const kategori = args[0]?.toLowerCase();
+        let fileName = args[1];
+
+        if (!kategori) return LenwyText("❌ Masukkan Kategori.");
+
+        const existingFolders = fs
+          .readdirSync(caseDir)
+          .filter((folder) =>
+            fs.statSync(path.join(caseDir, folder)).isDirectory(),
+          )
+          .map((f) => f.toLowerCase());
+
+        if (!existingFolders.includes(kategori)) {
+          return LenwyText(
+            `❌ *Kategori Tidak Ditemukan.*\n\n*[+] Kategori Tersedia:*\n - ${existingFolders.join(
+              "\n - ",
+            )}`,
+          );
+        }
+
+        const kategoriPath = path.join(caseDir, kategori);
+
+        const quoted = msg.message?.extendedTextMessage?.contextInfo;
+        const quotedMsg = quoted?.quotedMessage;
+
+        if (!quotedMsg) return LenwyText("❌ *Harap Reply Kode atau File.js*");
+
+        let code = "";
+
+        if (quotedMsg.documentMessage) {
+          const doc = quotedMsg.documentMessage;
+
+          if (!doc.fileName.endsWith(".js"))
+            return LenwyText("❌ *File Harus .js*");
+
+          fileName = doc.fileName.replace(".js", "");
+
+          const stream = await downloadContentFromMessage(doc, "document");
+
+          let buffer = Buffer.from([]);
+          for await (const chunk of stream) {
+            buffer = Buffer.concat([buffer, chunk]);
+          }
+
+          code = buffer.toString("utf-8");
+        } else {
+          code =
+            quotedMsg.conversation || quotedMsg.extendedTextMessage?.text || "";
+
+          if (!code) return LenwyText("❌ Pesan Reply Tidak Mengandung Teks.");
+
+          if (!fileName) return LenwyText("❌ Masukkan Nama File.");
+        }
+
+        fileName = fileName
+          .toLowerCase()
+          .replace(/[^a-z0-9_-]/g, "")
+          .trim();
+
+        if (!fileName) fileName = "lenwy_plugin";
+
+        const fullPath = path.join(kategoriPath, `${fileName}.js`);
+
+        if (fs.existsSync(fullPath)) return LenwyText("⚠️ (File Sudah Ada.*");
+
+        try {
+          fs.writeFileSync(fullPath, code);
+
+          await LenwyText(
+            `🎁 *Fitur Berhasil Ditambahkan*\n📁 *${kategori}/${fileName}.js*`,
+          );
+        } catch (err) {
+          console.error(err);
+          return LenwyText("❌ Gagal Membuat Fitur.");
+        }
+      }
+      break;
+
+    case "delfitur":
+      if (!q) return LenwyText("*Contoh: .Delfitur ai4chat.js*");
+
+      let targetFile = q.trim();
+
+      targetFile = targetFile.replace(/[^a-zA-Z0-9_.-]/g, "");
+
+      if (!targetFile.endsWith(".js"))
+        return LenwyText("❌ *Hanya Bisa Menghapus File.js*");
+
+      let foundPath = null;
+
+      const folders = fs.readdirSync(caseDir).filter((folder) => {
+        const full = path.join(caseDir, folder);
+        return (
+          fs.statSync(full).isDirectory() && folder.toLowerCase() !== "temp"
+        );
+      });
+
+      for (const folder of folders) {
+        const folderPath = path.join(caseDir, folder);
+        const files = fs.readdirSync(folderPath);
+
+        for (const file of files) {
+          if (file.toLowerCase() === targetFile.toLowerCase()) {
+            foundPath = path.join(folderPath, file);
+            break;
+          }
+        }
+
+        if (foundPath) break;
+      }
+
+      if (!foundPath)
+        return LenwyText("❌ *File Tidak Ditemukan Di Dalam Folder Case.*");
+
+      try {
+        if (!fs.existsSync(trashDir)) {
+          fs.mkdirSync(trashDir);
+        }
+
+        const newPath = path.join(trashDir, targetFile);
+
+        let finalPath = newPath;
+        if (fs.existsSync(newPath)) {
+          const timestamp = Date.now();
+          finalPath = path.join(
+            trashDir,
+            `${targetFile.replace(".js", "")}_${timestamp}.js`,
+          );
+        }
+
+        fs.renameSync(foundPath, finalPath);
+
+        await LenwyText(
+          `📁 *Fitur Berhasil Dihapus*\n🗑️ *${path.relative(caseDir, finalPath)}*`,
+        );
+      } catch (err) {
+        console.error(err);
+        return LenwyText("❌ *Gagal Menghapus Fitur&.");
+      }
+      break;
+```
 **[+] Keuntungan menggunakan switch :**
 
 * Cocok untuk fitur dengan banyak command
