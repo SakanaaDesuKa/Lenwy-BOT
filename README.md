@@ -382,32 +382,32 @@ Setiap fitur yang dibuat akan melakukan register command ke dalam sistem kategor
 
 ```
 ┌───────────────┐
-│  Feature file │
-│  tiktok.Js    │
+  Feature file
+  tiktok.Js
 └───────┬───────┘
         │
         ▼
 ┌─────────────────┐
-│ Folder category │
-│ case/down/      │
+  Folder category
+  case/down/
 └───────┬─────────┘
         │
         ▼
 ┌─────────────────┐
-│ Command registry│
-│ Categories map  │
+  Command registry
+  Categories map
 └───────┬─────────┘
         │
         ▼
 ┌─────────────────┐
-│ Menu generator  │
+   Menu generator
 └───────┬─────────┘
         │
         ▼
 ┌─────────────────┐
-│   Menu output   │
-│   .Downmenu     │
-│   [+] .Tiktok   │
+    Menu output
+    .Downmenu
+    [+] .Tiktok
 └─────────────────┘
 ```
 ---
