@@ -16,33 +16,130 @@ Dengan memecah sistem **switch case** menjadi modul-modul terpisah, struktur kod
 
 ---
 
+## 📚 **Table of Contents**
+
+* [Instalasi](#-instalasi)
+  * [[A] Clone Repositori](#a-clone-repositori)
+  * [[B] Masuk Ke Direktori](#b-masuk-ke-direktori)
+  * [[C] Install Dependencies](#c-install-dependencies)
+  * [[D] Jalankan Script](#d-jalankan-script)
+* [Update](#-update)
+  * [[A] Update Semua File](#a-update-semua-file-tanpa-menghapus-file-yang-dikembangkan)
+  * [[B] Update File Tertentu Saja](#b-update-file-tertentu-saja)
+* [Struktur Folder](#-struktur-folder)
+* [Bagaimana Cara Kerjanya](#-bagaimana-cara-kerjanya)
+  * [[A] Cara Memanggil Menu](#a-cara-memanggil-menu)
+  * [[B] Bagaimana Fitur Ditampilkan](#b-bagaimana-fitur-ditampilkan)
+  * [[C] Filter Label](#c-bot-juga-akan-melakukan-beberapa-filter)
+* [Fitur Utama](#-fitur-utama)
+  * [1. Modular Architecture](#-1--modular-architecture)
+  * [2. Multi-Platform Ready](#-2--multi-platform-ready)
+  * [3. Pairing Code Login](#-3--pairing-code-login)
+  * [4. Global Variable Management](#-4--global-variable-management)
+  * [5. Session Manager](#-5--session-manager)
+  * [6. Dynamic Command Registry](#-6--dynamic-command-registry)
+  * [7. Metadata Driven](#-7--metadata-driven)
+  * [8. Helper Function System](#-8--helper-function-system)
+  * [9. Label System](#-9--label-system)
+  * [10. Struktur Fitur](#-10--struktur-fitur)
+* [Informasi Developer](#-informasi-developer)
+* [Kontribusi](#-kontribusi)
+
+---
+
 ## 📑 **Instalasi**
 
-Pastikan anda sudah menginstall node.Js (versi LTS direkomendasikan).
+Pastikan anda sudah menginstall Node.js (versi LTS direkomendasikan). Jika belum, unduh di [nodejs.org](https://nodejs.org).
 
 #### **[A] Clone Repositori**
+
+Salin repositori ini ke komputer atau server kamu:
 ```
-git clone https://github.Com/lenwyy/bot-whatsapp-lenwy-scm
+git clone https://github.com/Lenwyy/bot-whatsapp-lenwy-scm
 ```
+
 #### **[B] Masuk Ke Direktori**
 
+Setelah clone selesai, masuk ke folder yang baru dibuat:
 ```
 cd bot-whatsapp-lenwy-scm
 ```
 
 #### **[C] Install Dependencies**
+
+Install semua package yang dibutuhkan oleh bot:
 ```
 npm install
 ```
 
-#### **[D] Jalankan Script** 
+> **Catatan:** Proses ini membutuhkan koneksi internet. Tunggu hingga selesai sebelum melanjutkan ke langkah berikutnya.
+
+#### **[D] Jalankan Script**
+
+Setelah semua dependencies terpasang, jalankan bot dengan perintah berikut:
 ```
 npm start
 ```
 
+> **Catatan:** Saat pertama kali dijalankan, bot akan meminta nomor WhatsApp untuk proses login menggunakan pairing code. Masukkan nomor yang diawali dengan `62` (tanpa tanda `+`).
+
+---
+
+## 📑 **Update**
+
+Ada dua skenario update yang perlu dibedakan, tergantung dari kebutuhan kamu.
+
+#### **[A] Update Semua File (Tanpa Menghapus File yang Dikembangkan)**
+
+Gunakan perintah ini jika ingin mengambil semua perubahan terbaru dari repositori, namun tetap mempertahankan file-file tambahan yang sudah kamu buat sendiri.
+
+Pastikan kamu sudah berada di dalam direktori **bot-whatsapp-lenwy-scm** terlebih dahulu:
+```
+cd bot-whatsapp-lenwy-scm
+```
+
+Kemudian jalankan:
+```
+git pull origin main
+```
+
+> **Catatan:** `git pull` hanya akan memperbarui file yang memang ada di repositori ini. File baru yang kamu tambahkan sendiri (seperti fitur custom di folder `case/`) **tidak akan terhapus atau tertimpa**.
+>
+> Namun jika kamu telah **mengedit file yang sama** dengan yang diupdate di repositori, Git akan meminta kamu menyelesaikan *merge conflict* secara manual.
+
+---
+
+#### **[B] Update File Tertentu Saja**
+
+Gunakan cara ini jika hanya ingin mengambil update dari satu atau beberapa file spesifik tanpa menyentuh file lainnya.
+
+Pastikan kamu sudah berada di dalam direktori **bot-whatsapp-lenwy-scm** terlebih dahulu:
+```
+cd bot-whatsapp-lenwy-scm
+```
+
+**Langkah 1 — Ambil info update terbaru dari remote:**
+```
+git fetch origin
+```
+
+**Langkah 2 — Ambil file yang ingin diupdate:**
+```
+git checkout origin/main -- WhatsApp/lenwy.js
+```
+
+Untuk beberapa file sekaligus, pisahkan dengan spasi:
+```
+git checkout origin/main -- WhatsApp/lenwy.js WhatsApp/index.js
+```
+
+> **Catatan:** Perintah ini akan **langsung menimpa** file lokal kamu dengan versi terbaru dari repositori. Pastikan tidak ada perubahan penting di file tersebut sebelum menjalankannya, atau backup terlebih dahulu.
+
 ---
 
 ## 📂 **Struktur Folder**
+
+Berikut adalah gambaran keseluruhan struktur folder pada repositori ini:
 
 ```
 ├── 📁 LenwySesi            # Folder Sesi
@@ -99,91 +196,22 @@ npm start
 ├── ⚙️ package-lock.json
 └── ⚙️ package.json
 ```
----
 
-## 📚 Table of Contents
-
-* [Instalasi](#-instalasi)
-
-  * [[A] Clone Repositori](#a-clone-repositori)
-  * [[B] Masuk Ke Direktori](#b-masuk-ke-direktori)
-  * [[C] Install Dependencies](#c-install-dependencies)
-  * [[D] Jalankan Script](#d-jalankan-script)
-
-* [Struktur Folder](#-struktur-folder)
-
-* [Bagaimana Cara Kerjanya](#-bagaimana-cara-kerjanya)
-
-  * [[A] Cara Memanggil Menu](#a-cara-memanggil-menu)
-  * [[B] Bagaimana Fitur Ditampilkan](#b-bagaimana-fitur-ditampilkan)
-  * [[C] Filter Label](#c-bot-juga-akan-melakukan-beberapa-filter)
-
-* [Fitur Utama](#-fitur-utama)
-
-* [Modular Architecture](#-1--modular-architecture-)
-
-  * [[A] index.Js (the core connection)](#a-indexjs-the-core-connection)
-* [Multi-Platform Ready](#-2--multi-platform-ready-)
-* [Pairing Code Login](#-3--pairing-code-login)
-* [Global Variable Management](#-4--global-variable-management)
-* [Session Manager](#-5--session-manager)
-
-  * [[A] Manajemen autentikasi](#a-manajemen-autentikasi)
-* [Dynamic Command Registry](#-6--dynamic-command-registry)
-* [Metadata Driven](#-7--metadata-driven)
-
-  * [[A] Identitas Fitur](#a-identitas-fitur)
-  * [[B] Menu Category](#b-menu-category)
-  * [[C] Command Case](#c-command-case)
-  * [[D] Sistem Visibility](#d-sistem-visibility)
-
-* [Sistem Hak Akses (Access Control)](#-sistem-hak-akses-access-control)
-
-  * [[A] Owner Only](#a-owner-only)
-  * [[B] Premium User](#b-premium-user)
-  * [[C] Group Only](#c-group-only)
-  * [[D] Private Chat Only](#d-private-chat-only)
-  * [[E] Admin Only](#e-admin-only)
-  * [[F] Bot Admin Required](#f-bot-admin-required)
-  * [[G] Private Permission](#g-private-permission)
-
-* [Helper Function System](#-8--helper-function-system)
-
-  * [[A] Send Text](#a-send-text)
-  * [[B] Wait Message](#b-wait-message)
-  * [[C] Send Image](#c-send-image)
-  * [[D] Send Video](#d-send-video)
-  * [[E] Send Audio](#e-send-audio)
-  * [[F] Send File](#f-send-file)
-
-* [Label System](#-9--label-system)
-
-  * [[A] Label Generator](#a-label-generator)
-  * [[B] Label Priority System](#b-label-priority-system)
-
-* [Struktur Fitur](#-10--struktur-fitur)
-
-  * [[A] Metadata Feature](#a-metadata-feature)
-  * [[B] Handler Function](#b-handler-function)
-  * [[C] Template Dengan Switch Case](#c-template-dengan-switch-case)
-  * [[D] Template Tanpa Switch Case](#d-template-tanpa-switch-case)
-
-* [Informasi Developer](#-informasi-developer)
-
-* [Kontribusi](#-kontribusi)
+> **Catatan:** Folder `LenwySesi` akan dibuat secara otomatis saat bot pertama kali dijalankan. Folder ini menyimpan data sesi WhatsApp dan **tidak perlu diedit secara manual**.
 
 ---
 
-## **🎁 Bagaimana Cara Kerjanya?**
+## 🎁 **Bagaimana Cara Kerjanya?**
 
-Sistem menu pada bot ini bersifat **Dynamic Category Menu**. Bot akan secara otomatis membaca seluruh folder yang berada di dalam direktori case.
+Sistem menu pada bot ini bersifat **Dynamic Category Menu**. Bot akan secara otomatis membaca seluruh folder yang berada di dalam direktori `case`:
+
 ```
 ./WhatsApp/case/ # dynamic menu
 ```
 
-Setiap folder yang ditemukan akan dianggap sebagai sebuah kategori menu.
+Setiap folder yang ditemukan di dalamnya akan dianggap sebagai sebuah kategori menu. Artinya, kamu cukup membuat folder baru untuk menambahkan kategori baru tanpa perlu mengubah kode utama bot.
 
-**[+] Contoh struktur folder :**
+**[+] Contoh struktur folder:**
 ```
 case/
  ├── ai/
@@ -191,8 +219,7 @@ case/
  └── group/
 ```
 
-**[+] Maka kategori menu yang tersedia adalah :**
-
+**[+] Maka kategori menu yang otomatis tersedia adalah:**
 ```
 .AIMENU
 .DOWNMENU
@@ -203,7 +230,7 @@ case/
 
 #### **[A] Cara Memanggil Menu**
 
-Untuk membuka menu dari sebuah kategori cukup menambahkan kata **menu** di belakang nama kategori.
+Untuk membuka menu dari sebuah kategori, cukup tambahkan kata **menu** di belakang nama kategori:
 
 ```
 .Aimenu
@@ -215,9 +242,9 @@ Untuk membuka menu dari sebuah kategori cukup menambahkan kata **menu** di belak
 
 #### **[B] Bagaimana Fitur Ditampilkan?**
 
-Setiap fitur yang terdaftar pada kategori akan otomatis ditampilkan pada menu sesuai dengan kategorinya.
+Setiap fitur yang terdaftar pada sebuah kategori akan otomatis muncul di menu sesuai dengan kategorinya. Tidak perlu mendaftarkan fitur secara manual.
 
-**[+] Contoh gambar :**
+**[+] Contoh tampilan menu:**
 
 ![kategori](https://files.catbox.moe/864f6s.jpg "Lenwy SCM Category")
 
@@ -225,57 +252,57 @@ Setiap fitur yang terdaftar pada kategori akan otomatis ditampilkan pada menu se
 
 #### **[C] Bot Juga Akan Melakukan Beberapa Filter**
 
-* Fitur dengan status *hidden* tidak akan ditampilkan  
-* Fitur dengan status *maintenance* akan diberi tanda `[Main]`  
-* Fitur yang dinonaktifkan akan diberi tanda `[Off]`
+Tidak semua fitur ditampilkan apa adanya. Bot akan menyesuaikan tampilan menu berdasarkan status masing-masing fitur:
 
-**[+] Contoh gambar :**
+* Fitur dengan status *hidden* tidak akan ditampilkan di menu, meskipun tetap bisa digunakan
+* Fitur dengan status *maintenance* akan diberi tanda `[Main]` sebagai peringatan
+* Fitur yang dinonaktifkan oleh owner akan diberi tanda `[Off]`
+
+**[+] Contoh tampilan label:**
 
 ![label](https://files.catbox.moe/pmvd05.png "Lenwy SCM Label")
 
-Dengan sistem ini, developer tidak perlu lagi menuliskan daftar menu secara manual.
-
-Setiap fitur baru yang ditambahkan ke kategori akan otomatis muncul di menu.
+Dengan sistem ini, developer tidak perlu lagi menuliskan daftar menu secara manual. Setiap fitur baru yang ditambahkan ke dalam folder kategori akan otomatis muncul di menu.
 
 ---
 
 ## 🌟 **Fitur Utama**
 
-### **[ 1 ] Modular Architecture :** 
+### **[ 1 ] Modular Architecture**
 
-Pemisahan logika koneksi, pesan, dan fitur agar mudah dikelola.
+Logika bot dibagi menjadi beberapa bagian yang terpisah sehingga lebih mudah dikelola dan dikembangkan. Koneksi, pesan, dan fitur masing-masing memiliki tempatnya sendiri:
 
 ```
 ├── 📁 WhatsApp
-│   ├── 📁 case         # Daftar fitur 
+│   ├── 📁 case         # Tempat semua fitur bot disimpan
 │   │   ├── 📁 ai
-│   │   │   ├── 📄 ai4chat.Js
-│   │   │   └── 📄 webpilot.Js
-│   │   │
-│   ├── 📁 scrape       # Scrape
-│   │   └── 📄 ai4chat.Js
+│   │   │   ├── 📄 ai4chat.js
+│   │   │   └── 📄 webpilot.js
 │   │
-│   └── 📄 index.Js     # Koneksi
-└── ⚙️ package.Json
+│   ├── 📁 scrape       # Tempat fungsi scraping disimpan
+│   │   └── 📄 Ai4Chat.js
+│   │
+│   └── 📄 index.js     # File utama koneksi ke WhatsApp
+└── ⚙️ package.json
 ```
 
-#### **[A] index.Js (the core connection)**
+#### **[A] index.js (The Core Connection)**
 
-File ini menangani seluruh alur koneksi ke server whatsapp. Menggunakan multi-file auth state dan mendukung pairing code.
+File `index.js` adalah inti dari bot ini. File ini menangani seluruh alur koneksi ke server WhatsApp, mulai dari autentikasi menggunakan multi-file auth state hingga mendukung login via pairing code.
 
 ---
 
-### **[ 2 ] Multi-Platform Ready :**
+### **[ 2 ] Multi-Platform Ready**
 
-Struktur lenwyset.Js yang memungkinkan menjalankan bot whatsapp dan telegram secara bersamaan (telegram dalam pengembangan).
+Bot ini dirancang agar bisa menjalankan lebih dari satu platform secara bersamaan. Semua pengaturan platform dikendalikan melalui satu file, yaitu `LenwySet.js`:
 
 ```
 ├── 📁 WhatsApp
-├── 📄 LenwySet.Js  # multi platform
-└── ⚙️ package.Json
+├── 📄 LenwySet.js  # Gerbang utama multi-platform
+└── ⚙️ package.json
 ```
 
-Berfungsi sebagai gerbang utama bot. Di sini anda bisa mengatur modul mana yang akan diaktifkan menggunakan sistem true/false
+Di dalam file ini, kamu bisa mengaktifkan atau menonaktifkan platform menggunakan nilai `true` atau `false`:
 
 ```js
 const config = {
@@ -284,47 +311,51 @@ const config = {
 };
 ```
 
-Jika whatsapp bernilai true, maka sistem akan otomatis memanggil dan menjalankan whatsapp/index.Js.
+Jika `whatsapp` bernilai `true`, sistem akan otomatis memanggil dan menjalankan `WhatsApp/index.js`. Pengaturan ini memudahkan pengembangan di masa depan tanpa perlu mengubah struktur utama bot.
 
 ---
 
-### **[ 3 ] Pairing Code Login** 
+### **[ 3 ] Pairing Code Login**
 
-Login whatsapp tanpa perlu scan qr, cukup menggunakan kode pairing yang praktis.
+Bot ini mendukung login WhatsApp tanpa perlu scan QR. Cukup masukkan nomor telepon, dan sistem akan memberikan kode pairing yang bisa langsung digunakan:
 
 ```js
-// ./WhatsApp/index.Js
+// ./WhatsApp/index.js
 
-  if (usePairingCode && !lenwy.authState.creds.registered) {
-    try {
-      const phoneNumber = await question(
-        "☘️ Masukan Nomor Yang Diawali Dengan 62 :\n",
-      );
-      const code = await lenwy.requestPairingCode(phoneNumber.trim());
-      console.log(`🎁 Pairing Code : ${code}`);
-    } catch (err) {
-      console.error("Failed to get pairing code:", err);
-    }
+if (usePairingCode && !lenwy.authState.creds.registered) {
+  try {
+    const phoneNumber = await question(
+      "☘️ Masukan Nomor Yang Diawali Dengan 62 :\n",
+    );
+    const code = await lenwy.requestPairingCode(phoneNumber.trim());
+    console.log(`🎁 Pairing Code : ${code}`);
+  } catch (err) {
+    console.error("Failed to get pairing code:", err);
   }
+}
 ```
+
+> **Catatan:** Masukkan nomor dengan format `62xxxxxxxxxx` tanpa spasi atau tanda hubung. Kode pairing yang muncul di terminal hanya berlaku beberapa detik, jadi segera masukkan ke aplikasi WhatsApp.
+
 ---
+
 ### **[ 4 ] Global Variable Management**
 
-Menggunakan globalthis untuk manajemen prefix, pesan respon, dan aset agar kode lebih bersih dan efisien.
+Semua konfigurasi umum bot seperti prefix, pesan respon, dan path aset dikelola menggunakan `globalThis` di dalam file `len.js`. Ini memudahkan developer untuk mengubah pengaturan bot dari satu tempat tanpa perlu mencari satu per satu di berbagai file:
 
 ```js
-// ./WhatsApp/len.Js
+// ./WhatsApp/len.js
 
 // Custom Credit Sticker
 globalThis.spackname = "Lenwy SCM"; // Ganti Sesuai Keinginan
 globalThis.sauthor = "Youtube : Lenwy\nBot: 0856-2497-5232"; // Ganti Sesuai Keinginan
 
 // Custom Prefix
-globalThis.prefix = ["#"]; // Multi Prefix (Custom Prefix)
+globalThis.prefix = ["#"]; // Bisa diisi lebih dari satu prefix
 globalThis.noprefix = false; // True = Tanpa Prefix, False = Pakai Prefix
 
 // Custom Menu Image
-globalThis.MenuImage = path.join(__dirname, "./database/image/lenwy.jpeg"); // Ganti Dengan Path Gambar Menu
+globalThis.MenuImage = path.join(__dirname, "./database/image/lenwy.jpeg"); // Ganti dengan path gambar kamu
 
 // Custom Message
 globalThis.mess = {
@@ -342,48 +373,53 @@ globalThis.mess = {
   maintenance: "🛠 Fitur Ini Sedang Dalam Perbaikan.",
 };
 ```
+
+> **Catatan:** Kamu cukup mengedit file `len.js` untuk menyesuaikan identitas dan pesan bot tanpa perlu menyentuh file lainnya.
+
 ---
-### **[ 5 ] Session Manager** 
 
-Otomatis menyimpan sesi di folder lenwysesi secara aman sesuai dengan konfigurasi path.
+### **[ 5 ] Session Manager**
+
+Sesi WhatsApp disimpan secara otomatis di folder `LenwySesi` yang berada di luar folder `WhatsApp`. Pemisahan ini dilakukan agar data sesi tetap aman dan tidak ikut tertimpa saat ada update pada file bot:
 
 ```
-├── 📁 LenwySesi    # sesi 
+├── 📁 LenwySesi    # Folder sesi — dibuat otomatis saat pertama kali login
 ├── 📁 WhatsApp
-└── ⚙️ package.Json
+└── ⚙️ package.json
 ```
 
-#### **[A] Manajemen autentikasi** 
+#### **[A] Manajemen Autentikasi**
 
-Sesi akan disimpan secara otomatis di luar folder whatsapp untuk keamanan.
+Berikut adalah konfigurasi path penyimpanan sesi yang digunakan:
 
 ```js
-// ./WhatsApp/index.Js
+// ./WhatsApp/index.js
 
-  const { state, saveCreds } = await useMultiFileAuthState(
-    path.resolve(__dirname, "../LenwySesi"),
-  );
+const { state, saveCreds } = await useMultiFileAuthState(
+  path.resolve(__dirname, "../LenwySesi"),
+);
 ```
+
+> **Catatan:** Jangan hapus folder `LenwySesi` kecuali kamu ingin melakukan login ulang. Menghapus folder ini akan membuat bot meminta pairing code baru saat dijalankan kembali.
+
 ---
+
 ### **[ 6 ] Dynamic Command Registry**
 
-Bot ini menggunakan sistem dynamic **Command Registry**, yaitu sistem yang mencatat seluruh command secara otomatis saat bot dijalankan.
+Setiap kali bot dijalankan, sistem secara otomatis membaca dan mendaftarkan semua command dari seluruh file fitur yang ada. Tidak perlu mendaftarkan command secara manual ke dalam daftar apapun.
 
-Setiap fitur yang dibuat akan melakukan register command ke dalam sistem kategori menggunakan sebuah registry. 
+Dengan sistem ini, bot mengetahui secara otomatis:
+* Nama command yang tersedia
+* Kategori dari setiap command
+* Status aktif, nonaktif, atau maintenance
+* Apakah fitur disembunyikan dari menu atau tidak
 
-**[+] Dengan begitu bot mengetahui :**
-* Nama command
-* Kategori command
-* Status fitur
-* Apakah fitur disembunyikan atau tidak
-* Apakah fitur sedang maintenance
-
-**[+] Contoh alur :**
+**[+] Berikut alur kerja dari fitur hingga tampil di menu:**
 
 ```
 ┌───────────────┐
   Feature file
-  tiktok.Js
+  tiktok.js
 └───────┬───────┘
         │
         ▼
@@ -410,14 +446,14 @@ Setiap fitur yang dibuat akan melakukan register command ke dalam sistem kategor
     [+] .Tiktok
 └─────────────────┘
 ```
+
 ---
+
 ### **[ 7 ] Metadata Driven**
 
-Setiap fitur pada bot ini menggunakan sistem **Metadata Driven**, yaitu sistem di mana seluruh pengaturan fitur ditentukan melalui sebuah objek metadata.
+Setiap fitur menggunakan sistem **Metadata Driven**, yaitu seluruh pengaturan fitur ditentukan melalui sebuah objek bernama `info` yang berada di setiap file fitur.
 
-Metadata ini disimpan dalam sebuah objek bernama info yang berada di setiap file fitur.
-
-**[+] Contoh metadata :**
+Dengan sistem ini, kamu bisa mengatur nama, kategori, command, hak akses, dan visibilitas fitur hanya dari satu tempat tanpa perlu menyentuh sistem utama bot:
 
 ```js
 import Ai4Chat from "../../scrape/Ai4Chat.js";
@@ -442,183 +478,136 @@ export const info = {
 };
 ```
 
-Metadata ini digunakan oleh sistem bot untuk menentukan berbagai hal seperti :
-* Nama fitur
-* Kategori menu
-* Command yang digunakan
-* Deskripsi fitur
-* Hak akses pengguna
-* Status visibilitas fitur
-
-Dengan sistem ini, seluruh perilaku fitur dapat diatur hanya melalui metadata tanpa perlu mengubah sistem utama bot.
+---
 
 ### **[+] Penjelasan Struktur Metadata**
 
 #### **[A] Identitas Fitur**
+
 ```js
 name: "AI4Chat"
 ```
-Nama fitur yang digunakan sebagai identitas internal fitur.
+
+Nama fitur yang digunakan sebagai identitas internal. Nama ini juga akan tampil di beberapa bagian sistem seperti log dan plugin status.
+
+---
 
 #### **[B] Menu Category**
+
 ```js
-menu: ["Ai"]
+menu: ["AI"]
 ```
-Menentukan kategori menu tempat fitur ini akan ditampilkan.
+
+Menentukan di kategori mana fitur ini akan ditampilkan. Nilai ini harus sesuai dengan nama folder yang ada di dalam direktori `case/`.
+
+---
 
 #### **[C] Command Case**
+
 ```js
 case: ["ai"]
 ```
-Menentukan command yang digunakan untuk menjalankan fitur.
 
-**[+] Contoh penggunaan oleh user :**
-```js
-.Ai apa itu artificial intelligence?
-```
+Menentukan command yang digunakan untuk menjalankan fitur. Satu fitur bisa memiliki lebih dari satu command sekaligus:
 
-Satu fitur bisa memiliki lebih dari satu command alias.
-
-**[+] Contoh :**
 ```js
 case: ["ai", "chatgpt", "ask"]
 ```
 
+**[+] Contoh penggunaan oleh user:**
+```
+.ai apa itu artificial intelligence?
+.chatgpt apa itu artificial intelligence?
+.ask apa itu artificial intelligence?
+```
+
+Semua command di atas akan menjalankan fitur yang sama.
+
+---
+
 #### **[D] Sistem Visibility**
+
 ```js
 hidden: false
 ```
-Menentukan apakah fitur akan ditampilkan di menu atau tidak.
 
-Jika true, fitur tetap bisa digunakan tetapi tidak muncul di menu.
+Menentukan apakah fitur akan ditampilkan di menu atau tidak. Jika diatur ke `true`, fitur tetap bisa digunakan namun tidak akan muncul di daftar menu.
+
+---
 
 ### **[+] Sistem Hak Akses (Access Control)**
 
-Metadata juga menentukan siapa saja yang boleh menggunakan fitur tersebut.
+Metadata juga menentukan siapa saja yang boleh menggunakan fitur tersebut. Cukup ubah nilai properti berikut menjadi `true` untuk mengaktifkan pembatasan akses:
 
-#### **[A] Owner Only**
-```js
-owner: false
-```
-Jika true, hanya owner bot yang dapat menggunakan fitur.
+| Property | Keterangan |
+|---|---|
+| `owner` | Hanya owner bot yang dapat menggunakan fitur ini |
+| `premium` | Hanya user premium yang dapat menggunakan fitur ini |
+| `group` | Fitur hanya dapat digunakan di dalam grup |
+| `private` | Fitur hanya bisa digunakan di chat pribadi |
+| `admin` | Hanya admin grup yang dapat menggunakan fitur ini |
+| `botAdmin` | Bot harus berstatus admin di grup agar fitur bisa berjalan |
+| `allowPrivate` | Mengizinkan fitur yang biasanya hanya untuk grup agar bisa digunakan di chat pribadi |
 
----
-
-#### **[B] Premium User**
-```js
-premium: false
-```
-Jika true, hanya user premium yang dapat menggunakan fitur ini.
-
----
-
-#### **[C] Group Only**
-```js
-group: false
-```
-Jika true, fitur hanya dapat digunakan di grup.
-
----
-
-#### **[D] Private Chat Only**
-```js
-private: false
-```
-Jika true, fitur hanya bisa digunakan di chat pribadi.
-
----
-
-#### **[E] Admin Only**
-```js
-admin: false
-```
-Jika true, hanya admin grup yang dapat menggunakan fitur ini.
-
----
-#### **[F] Bot Admin Required**
-```js
-botadmin: false
-```
-Jika true, bot harus memiliki status admin di grup agar fitur dapat berjalan.
-
----
-
-#### **[G] Private Permission**
-```js
-allowprivate: false
-```
-
-Menentukan apakah fitur yang biasanya digunakan di grup boleh dijalankan di chat pribadi.
+> **Catatan:** Jika semua properti bernilai `false`, fitur dapat digunakan oleh siapa saja.
 
 ---
 
 ### **[ 8 ] Helper Function System**
 
-Bot ini menyediakan beberapa helper function yang digunakan untuk mempermudah pengiriman pesan dan media.
+Bot menyediakan beberapa helper function sebagai shortcut dari `lenwy.sendMessage`, sehingga developer tidak perlu menulis ulang parameter yang sama setiap kali mengirim pesan atau media.
 
-Helper dibuat sebagai shortcut untuk fungsi `lenwy.Sendmessage` agar developer tidak perlu menulis parameter yang sama berulang kali.
-
-Namun perlu diketahui bahwa **Helper Bersifat Opsional**.
-
-Developer tetap dapat menggunakan `lenwy.Sendmessage` secara langsung jika membutuhkan kontrol yang lebih fleksibel terhadap pengiriman pesan.
-
-### **[+] Helper Hanya Bertujuan Untuk**
-
-* Mempercepat penulisan kode
-* Mengurangi duplikasi kode
-* Mempermudah pengiriman media umum
-
-Dengan menggunakan helper, developer dapat mengirim berbagai jenis pesan hanya dengan satu fungsi sederhana.
+> **Catatan:** Helper bersifat opsional. Kamu tetap bisa menggunakan `lenwy.sendMessage` secara langsung jika membutuhkan kontrol yang lebih fleksibel atas pengiriman pesan.
 
 ---
 
 ### **[+] Jenis Helper Yang Tersedia**
 
 #### **[A] Send Text**
+
+Digunakan untuk mengirim pesan teks biasa sebagai reply dari pesan user:
+
 ```js
 const LenwyText = (text) =>
   lenwy.sendMessage(replyJid, { text }, { quoted: len });
 ```
-Digunakan untuk mengirim pesan teks biasa.
 
-**[+] Contoh penggunaan :**
+**[+] Contoh penggunaan:**
 ```js
 LenwyText("Halo, Ini Lenwy!");
 ```
-Bot akan mengirimkan pesan teks dengan mereply pesan sebelumnya.
 
 ---
 
 #### **[B] Wait Message**
+
+Digunakan untuk mengirim pesan loading saat bot sedang memproses sebuah perintah. Sebaiknya dipanggil sebelum proses yang memakan waktu seperti request ke API:
+
 ```js
 const LenwyWait = () => lenwyreply(globalThis.mess.wait);
 ```
-Digunakan untuk mengirim pesan loading / processing ketika bot sedang memproses sebuah fitur.
 
-**[+] Contoh penggunaan :**
+**[+] Contoh penggunaan:**
 ```js
 export default async function handler(leni) {
   const { command, q, LenwyText, LenwyWait } = leni;
 
   switch (command) {
-    case "ai":
-      {
-        if (!q) return LenwyText("☘️ *Contoh:* ai Apa itu JavaScript?");
+    case "ai": {
+      if (!q) return LenwyText("☘️ *Contoh:* .ai Apa itu JavaScript?");
 
-        LenwyWait(); // Pesan loading
+      LenwyWait(); // Kirim pesan loading sebelum proses dimulai
 
-        try {
-          const lenai = await Ai4Chat(q);
-
-          if (!lenai) return LenwyText("⚠️ AI Tidak Merespon.");
-
-          await LenwyText(`*Lenwy AI*\n\n${lenai}`);
-        } catch (error) {
-          console.error("Error AI:", error);
-          LenwyText(globalThis.mess.error);
-        }
+      try {
+        const lenai = await Ai4Chat(q);
+        if (!lenai) return LenwyText("⚠️ AI Tidak Merespon.");
+        await LenwyText(`*Lenwy AI*\n\n${lenai}`);
+      } catch (error) {
+        console.error("Error AI:", error);
+        LenwyText(globalThis.mess.error);
       }
       break;
+    }
   }
 }
 ```
@@ -626,34 +615,41 @@ export default async function handler(leni) {
 ---
 
 #### **[C] Send Image**
+
+Digunakan untuk mengirim gambar dari URL beserta caption opsional:
+
 ```js
 const LenwyImage = (url, caption = "") =>
   lenwy.sendMessage(replyJid, { image: { url }, caption }, { quoted: len });
 ```
-Digunakan untuk mengirim gambar dari url.
 
-**[+] Contoh penggunaan :**
+**[+] Contoh penggunaan:**
 ```js
-LenwyImage(imageurl, "Ini Gambarnya");
+LenwyImage("https://example.com/gambar.jpg", "Ini Gambarnya");
 ```
 
 ---
 
 #### **[D] Send Video**
+
+Digunakan untuk mengirim video dari URL beserta caption opsional:
+
 ```js
 const LenwyVideo = (url, caption = "") =>
   lenwy.sendMessage(replyJid, { video: { url }, caption }, { quoted: len });
 ```
-Digunakan untuk mengirim video dari url.
 
-**[+] Contoh pengunaan :**
+**[+] Contoh penggunaan:**
 ```js
-LenwyVideo(videourl, "Ini Videonya");
+LenwyVideo("https://example.com/video.mp4", "Ini Videonya");
 ```
 
 ---
 
 #### **[E] Send Audio**
+
+Digunakan untuk mengirim audio dari URL. Parameter `ptt` menentukan apakah audio akan ditampilkan sebagai voice note atau file audio biasa:
+
 ```js
 const LenwyAudio = (url, ptt = false) =>
   lenwy.sendMessage(
@@ -662,19 +658,19 @@ const LenwyAudio = (url, ptt = false) =>
     { quoted: len },
   );
 ```
-Digunakan untuk mengirim audio.
 
-Parameter `ptt` menentukan apakah audio dikirim sebagai voice note.
-
-**[+] Contoh penggunaan :**
+**[+] Contoh penggunaan:**
 ```js
-LenwyAudio(audiourl, true);
+LenwyAudio("https://example.com/audio.mp3", true);  // true  = tampil sebagai voice note
+LenwyAudio("https://example.com/audio.mp3", false); // false = tampil sebagai file audio
 ```
-Jika true, audio akan tampil seperti voice note whatsapp.
 
 ---
 
 #### **[F] Send File**
+
+Digunakan untuk mengirim file atau dokumen dalam bentuk buffer:
+
 ```js
 const LenwyFile = (buffer, fileName, mime) =>
   lenwy.sendMessage(
@@ -684,21 +680,21 @@ const LenwyFile = (buffer, fileName, mime) =>
   );
 ```
 
-Digunakan untuk mengirim file atau dokumen.
-
-**[+] Contoh penggunaan :**
+**[+] Contoh penggunaan:**
 ```js
 LenwyFile(buffer, "Lenwy.pdf", "application/pdf");
 ```
+
 ---
 
 ### **[ 9 ] Label System**
 
-Bot menggunakan label system untuk menandai fitur berdasarkan hak akses yang dibutuhkan.
-
-Label ini ditampilkan di menu sehingga pengguna dapat mengetahui siapa saja yang dapat menggunakan fitur tersebut.
+Bot menggunakan label system untuk menandai setiap fitur berdasarkan hak akses yang dibutuhkan. Label ini akan otomatis muncul di samping nama fitur saat menu ditampilkan, sehingga pengguna langsung tahu siapa yang bisa menggunakan fitur tersebut.
 
 #### **[A] Label Generator**
+
+Fungsi berikut membaca metadata fitur dan menentukan label yang sesuai berdasarkan prioritas:
+
 ```js
 function getLabel(info) {
   if (info.owner) return "Owner";
@@ -711,27 +707,22 @@ function getLabel(info) {
 }
 ```
 
-Fungsi ini membaca metadata fitur dan menentukan label akses yang akan ditampilkan di menu.
+**[+] Contoh hasil label yang tampil di menu:**
 
-**[+] Contoh hasil label :**
-```js
-owner: true
 ```
-**[+] menu akan menampilkan :**
+[+] .Lenwy   [Owner]
+[+] .Kick    [Admin]
+[+] .Add     [BotAdmin]
+[+] .Twitter [Premium]
+[+] .Sticker
+```
 
-`[+] .Lenwy [Owner]`
-
-**[+] Contoh lainnya :**
-
-`[+] .Kick [Admin]`
-
-`[+] .Add [BotAdmin]`
-
-`[+] .Twitter [Premium]`
+---
 
 #### **[B] Label Priority System**
 
-Bot juga menggunakan sistem prioritas label untuk mengatur urutan atau tingkat akses.
+Sistem label menggunakan urutan prioritas untuk menentukan label mana yang ditampilkan jika sebuah fitur memiliki lebih dari satu batasan akses:
+
 ```js
 const labelPriority = {
   Public: 0,
@@ -743,28 +734,21 @@ const labelPriority = {
   Private: 6,
 };
 ```
-### **[+] Sistem Ini Berfungsi Untuk :**
 
-* Mengurutkan fitur di menu
-* Menentukan tingkat akses fitur
-* Mengelompokkan fitur berdasarkan level permission
+Sistem prioritas ini juga digunakan untuk mengurutkan tampilan fitur di menu dan mengelompokkannya berdasarkan level permission, sehingga menu terlihat lebih rapi dan terstruktur.
 
 ---
 
 ### **[ 10 ] Struktur Fitur**
 
-Setiap fitur pada bot dibangun menggunakan sebuah template struktur file yang terdiri dari dua bagian utama:
+Setiap fitur pada bot dibangun menggunakan template yang terdiri dari dua bagian utama, yaitu **metadata** (`info`) dan **handler function**. Template ini membuat penambahan fitur baru menjadi sangat mudah tanpa perlu mengubah sistem utama bot.
 
-* Metadata (info)
-* Handler function
-
-Template ini memungkinkan fitur baru ditambahkan dengan mudah tanpa mengubah sistem utama bot.
+---
 
 #### **[A] Metadata Feature**
 
-Metadata digunakan untuk mendefinisikan identitas fitur, kategori menu, command, serta hak akses.
+Metadata mendefinisikan seluruh identitas fitur, mulai dari nama, kategori menu, command yang digunakan, hingga hak akses pengguna:
 
-**[+] Contoh metadata :**
 ```js
 export const info = {
   name: "Tiktok Downloader",
@@ -785,40 +769,33 @@ export const info = {
   allowPrivate: false,
 };
 ```
-Metadata ini akan dibaca oleh sistem bot untuk
 
-* Mendaftarkan command
-* Menentukan kategori menu
-* Menentukan hak akses fitur
-* Menentukan apakah fitur tampil di menu
+---
 
 #### **[B] Handler Function**
 
-Handler adalah fungsi utama yang akan dijalankan ketika command dipanggil.
+Handler adalah fungsi utama yang akan dijalankan ketika command dipanggil oleh user. Semua data yang dibutuhkan tersedia melalui parameter `leni`:
 
-**[+] Struktur Dasar Handler :**
 ```js
 export default async function handler(leni) {
-
+  // logika fitur di sini
 }
 ```
-Parameter `leni` berisi berbagai data yang disediakan oleh sistem bot seperti
 
-* command yang dipanggil
-* query user (q)
-* helper functions
-* informasi chat
+Kamu bisa mengambil data yang diperlukan dari `leni` menggunakan destructuring:
 
-**[+] Contoh penggunaan :**
 ```js
 const { command, q, LenwyText, LenwyWait, LenwyVideo } = leni;
 ```
 
+Di mana `command` adalah perintah yang dipanggil user, `q` adalah teks setelah command, dan sisanya adalah helper function yang sudah tersedia.
+
+---
+
 #### **[C] Template Dengan Switch Case**
 
-Template ini digunakan jika satu file menangani beberapa command dengan logika berbeda.
+Gunakan template ini jika satu file fitur menangani beberapa command dengan logika yang berbeda-beda:
 
-**[+] Contoh :**
 ```js
 switch (command) {
   case "tt":
@@ -829,287 +806,126 @@ switch (command) {
   }
 }
 ```
-**[+] Contoh kode :**
+
+**[+] Contoh implementasi lengkap:**
 ```js
 // ./WhatsApp/case/owner/control.js
 
-  switch (command) {
-    case "enable": {
-      if (!target) return LenwyText("*Contoh: Enable Tiktok");
+switch (command) {
+  case "enable": {
+    if (!target) return LenwyText("*Contoh: .Enable tiktok*");
 
-      const pluginData = commands.get(target);
-      if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
+    const pluginData = commands.get(target);
+    if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
 
-      state.disable = state.disable.filter((v) => v !== target);
-      state.maintenance = state.maintenance.filter((v) => v !== target);
+    state.disable = state.disable.filter((v) => v !== target);
+    state.maintenance = state.maintenance.filter((v) => v !== target);
 
-      savePluginState(state);
-
-      return LenwyText(`🎁 Plugin *${target}* Berhasil Diaktifkan.`);
-    }
-
-    case "disable": {
-      if (!target) return LenwyText("*Contoh: Disable Tiktok*");
-
-      const pluginData = commands.get(target);
-      if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
-
-      if (!state.disable.includes(target)) {
-        state.disable.push(target);
-      }
-
-      state.maintenance = state.maintenance.filter((v) => v !== target);
-
-      savePluginState(state);
-
-      return LenwyText(`🚫 Plugin *${target}* Berhasil Dinonaktifkan.`);
-    }
-
-    case "main": {
-      if (!target) return LenwyText("*Contoh: Main Tiktok");
-
-      const pluginData = commands.get(target);
-      if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
-
-      if (!state.maintenance.includes(target)) {
-        state.maintenance.push(target);
-      }
-
-      savePluginState(state);
-
-      return LenwyText(`🛠 Plugin *${target}* Memasuki Pemeliharaan.`);
-    }
-
-    case "unmain": {
-      if (!target) return LenwyText("*Contoh: Unmain Tiktok*");
-
-      const pluginData = commands.get(target);
-      if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
-
-      state.maintenance = state.maintenance.filter((v) => v !== target);
-
-      savePluginState(state);
-
-      return LenwyText(`🎁 Plugin *${target}* Keluar Dari Pemeliharaan.`);
-    }
-
-    case "plugins": {
-      const printed = new Set();
-
-      const totalList = [];
-      const disableList = [...state.disable];
-      const maintenanceList = [...state.maintenance];
-
-      for (let [cmd, data] of commands) {
-        const mainCmd = data.info.menu?.[0]?.toLowerCase();
-        if (!mainCmd || printed.has(mainCmd)) continue;
-
-        printed.add(mainCmd);
-        totalList.push(mainCmd);
-      }
-
-      totalList.sort((a, b) => a.localeCompare(b));
-      disableList.sort((a, b) => a.localeCompare(b));
-      maintenanceList.sort((a, b) => a.localeCompare(b));
-
-      let text = `📦 *PLUGIN STATUS (${totalList.length})*\n\n`;
-
-      text += `*[+] Maintenance (${maintenanceList.length})*\n`;
-      text += maintenanceList.length
-        ? maintenanceList.map((v) => ` - ${v}`).join("\n")
-        : "Tidak Ada";
-      text += `\n\n`;
-
-      text += `*[+] Disable (${disableList.length})*\n`;
-      text += disableList.length
-        ? disableList.map((v) => ` - ${v}`).join("\n")
-        : "Tidak Ada";
-
-      if (disableList.length === 0 && maintenanceList.length === 0) {
-        text += `\n\n☘️ *Semua Fitur Dalam Kondisi Aktif*`;
-      }
-
-      return LenwyText(text);
-    }
+    savePluginState(state);
+    return LenwyText(`🎁 Plugin *${target}* Berhasil Diaktifkan.`);
   }
+
+  case "disable": {
+    if (!target) return LenwyText("*Contoh: .Disable tiktok*");
+
+    const pluginData = commands.get(target);
+    if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
+
+    if (!state.disable.includes(target)) {
+      state.disable.push(target);
+    }
+
+    state.maintenance = state.maintenance.filter((v) => v !== target);
+
+    savePluginState(state);
+    return LenwyText(`🚫 Plugin *${target}* Berhasil Dinonaktifkan.`);
+  }
+
+  case "main": {
+    if (!target) return LenwyText("*Contoh: .Main tiktok*");
+
+    const pluginData = commands.get(target);
+    if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
+
+    if (!state.maintenance.includes(target)) {
+      state.maintenance.push(target);
+    }
+
+    savePluginState(state);
+    return LenwyText(`🛠 Plugin *${target}* Memasuki Pemeliharaan.`);
+  }
+
+  case "unmain": {
+    if (!target) return LenwyText("*Contoh: .Unmain tiktok*");
+
+    const pluginData = commands.get(target);
+    if (!pluginData) return LenwyText("❌ Plugin Tidak Ditemukan.");
+
+    state.maintenance = state.maintenance.filter((v) => v !== target);
+
+    savePluginState(state);
+    return LenwyText(`🎁 Plugin *${target}* Keluar Dari Pemeliharaan.`);
+  }
+
+  case "plugins": {
+    const printed = new Set();
+    const totalList = [];
+    const disableList = [...state.disable];
+    const maintenanceList = [...state.maintenance];
+
+    for (let [cmd, data] of commands) {
+      const mainCmd = data.info.menu?.[0]?.toLowerCase();
+      if (!mainCmd || printed.has(mainCmd)) continue;
+      printed.add(mainCmd);
+      totalList.push(mainCmd);
+    }
+
+    totalList.sort((a, b) => a.localeCompare(b));
+    disableList.sort((a, b) => a.localeCompare(b));
+    maintenanceList.sort((a, b) => a.localeCompare(b));
+
+    let text = `📦 *PLUGIN STATUS (${totalList.length})*\n\n`;
+
+    text += `*[+] Maintenance (${maintenanceList.length})*\n`;
+    text += maintenanceList.length
+      ? maintenanceList.map((v) => ` - ${v}`).join("\n")
+      : "Tidak Ada";
+    text += `\n\n`;
+
+    text += `*[+] Disable (${disableList.length})*\n`;
+    text += disableList.length
+      ? disableList.map((v) => ` - ${v}`).join("\n")
+      : "Tidak Ada";
+
+    if (disableList.length === 0 && maintenanceList.length === 0) {
+      text += `\n\n☘️ *Semua Fitur Dalam Kondisi Aktif*`;
+    }
+
+    return LenwyText(text);
+  }
+}
 ```
-**[+] Contoh kode Lainnya :**
-```js
-// ./WhatsApp/case/owner/fitur.js
 
-export default async function handler(leni) {
-  const { command, q, msg, LenwyText, lenwy, replyJid } = leni;
+**[+] Keuntungan menggunakan switch case:**
+* Cocok untuk fitur dengan banyak command dalam satu file
+* Logika setiap command bisa dipisahkan dengan rapi
+* Struktur lebih terorganisir untuk fitur yang kompleks
 
-  switch (command) {
-    case "addfitur":
-      {
-        if (!q)
-          return LenwyText(
-            "*Contoh: .Addfitur [Kategori] [Nama]*\n\n*Harap Reply Pesan Berisikan Kode*",
-          );
+---
 
-        const args = q.split(" ");
-        const kategori = args[0]?.toLowerCase();
-        let fileName = args[1];
+#### **[D] Template Tanpa Switch Case**
 
-        if (!kategori) return LenwyText("❌ Masukkan Kategori.");
+Gunakan template ini jika semua command dalam file tersebut menjalankan logika yang sama. Karena command sudah ditentukan oleh metadata, handler cukup ditulis sekali:
 
-        const existingFolders = fs
-          .readdirSync(caseDir)
-          .filter((folder) =>
-            fs.statSync(path.join(caseDir, folder)).isDirectory(),
-          )
-          .map((f) => f.toLowerCase());
-
-        if (!existingFolders.includes(kategori)) {
-          return LenwyText(
-            `❌ *Kategori Tidak Ditemukan.*\n\n*[+] Kategori Tersedia:*\n - ${existingFolders.join(
-              "\n - ",
-            )}`,
-          );
-        }
-
-        const kategoriPath = path.join(caseDir, kategori);
-
-        const quoted = msg.message?.extendedTextMessage?.contextInfo;
-        const quotedMsg = quoted?.quotedMessage;
-
-        if (!quotedMsg) return LenwyText("❌ *Harap Reply Kode atau File.js*");
-
-        let code = "";
-
-        if (quotedMsg.documentMessage) {
-          const doc = quotedMsg.documentMessage;
-
-          if (!doc.fileName.endsWith(".js"))
-            return LenwyText("❌ *File Harus .js*");
-
-          fileName = doc.fileName.replace(".js", "");
-
-          const stream = await downloadContentFromMessage(doc, "document");
-
-          let buffer = Buffer.from([]);
-          for await (const chunk of stream) {
-            buffer = Buffer.concat([buffer, chunk]);
-          }
-
-          code = buffer.toString("utf-8");
-        } else {
-          code =
-            quotedMsg.conversation || quotedMsg.extendedTextMessage?.text || "";
-
-          if (!code) return LenwyText("❌ Pesan Reply Tidak Mengandung Teks.");
-
-          if (!fileName) return LenwyText("❌ Masukkan Nama File.");
-        }
-
-        fileName = fileName
-          .toLowerCase()
-          .replace(/[^a-z0-9_-]/g, "")
-          .trim();
-
-        if (!fileName) fileName = "lenwy_plugin";
-
-        const fullPath = path.join(kategoriPath, `${fileName}.js`);
-
-        if (fs.existsSync(fullPath)) return LenwyText("⚠️ (File Sudah Ada.*");
-
-        try {
-          fs.writeFileSync(fullPath, code);
-
-          await LenwyText(
-            `🎁 *Fitur Berhasil Ditambahkan*\n📁 *${kategori}/${fileName}.js*`,
-          );
-        } catch (err) {
-          console.error(err);
-          return LenwyText("❌ Gagal Membuat Fitur.");
-        }
-      }
-      break;
-
-    case "delfitur":
-      if (!q) return LenwyText("*Contoh: .Delfitur ai4chat.js*");
-
-      let targetFile = q.trim();
-
-      targetFile = targetFile.replace(/[^a-zA-Z0-9_.-]/g, "");
-
-      if (!targetFile.endsWith(".js"))
-        return LenwyText("❌ *Hanya Bisa Menghapus File.js*");
-
-      let foundPath = null;
-
-      const folders = fs.readdirSync(caseDir).filter((folder) => {
-        const full = path.join(caseDir, folder);
-        return (
-          fs.statSync(full).isDirectory() && folder.toLowerCase() !== "temp"
-        );
-      });
-
-      for (const folder of folders) {
-        const folderPath = path.join(caseDir, folder);
-        const files = fs.readdirSync(folderPath);
-
-        for (const file of files) {
-          if (file.toLowerCase() === targetFile.toLowerCase()) {
-            foundPath = path.join(folderPath, file);
-            break;
-          }
-        }
-
-        if (foundPath) break;
-      }
-
-      if (!foundPath)
-        return LenwyText("❌ *File Tidak Ditemukan Di Dalam Folder Case.*");
-
-      try {
-        if (!fs.existsSync(trashDir)) {
-          fs.mkdirSync(trashDir);
-        }
-
-        const newPath = path.join(trashDir, targetFile);
-
-        let finalPath = newPath;
-        if (fs.existsSync(newPath)) {
-          const timestamp = Date.now();
-          finalPath = path.join(
-            trashDir,
-            `${targetFile.replace(".js", "")}_${timestamp}.js`,
-          );
-        }
-
-        fs.renameSync(foundPath, finalPath);
-
-        await LenwyText(
-          `📁 *Fitur Berhasil Dihapus*\n🗑️ *${path.relative(caseDir, finalPath)}*`,
-        );
-      } catch (err) {
-        console.error(err);
-        return LenwyText("❌ *Gagal Menghapus Fitur&.");
-      }
-      break;
-```
-**[+] Keuntungan menggunakan switch :**
-
-* Cocok untuk fitur dengan banyak command
-* Logika command bisa dipisahkan
-* Struktur lebih rapi untuk fitur kompleks
-
-**[D] Template Tanpa Switch Case**
-
-Template ini digunakan jika semua command memiliki logika yang sama.
-
-**[+] Contoh :**
 ```js
 export default async function handler(leni) {
   const { q, LenwyText, LenwyWait, LenwyVideo } = leni;
 
-  // logika fitur
+  // logika fitur langsung di sini
 }
 ```
 
-**[+] Contoh kode :**
+**[+] Contoh implementasi lengkap:**
 ```js
 // ./WhatsApp/case/owner/direktori.js
 
@@ -1125,9 +941,7 @@ export default async function handler(leni) {
 
   try {
     if (!fs.existsSync(resolvedPath)) {
-      return LenwyText(
-        `❌ *Direktori atau File Tidak Ditemukan:* \`${targetPath}\``,
-      );
+      return LenwyText(`❌ *Direktori atau File Tidak Ditemukan:* \`${targetPath}\``);
     }
 
     const stats = fs.statSync(resolvedPath);
@@ -1140,20 +954,11 @@ export default async function handler(leni) {
         fileName.toLowerCase().endsWith(".pem") ||
         fileName.toLowerCase().endsWith(".key")
       ) {
-        return LenwyText(
-          "🚫 Akses Diblokir: File Ini Mengandung Kredensial Sensitif.",
-        );
+        return LenwyText("🚫 Akses Diblokir: File Ini Mengandung Kredensial Sensitif.");
       }
 
       const fileContent = fs.readFileSync(resolvedPath, "utf-8");
-
-      // if (fileContent.length > 4000) {
-      //      return LenwyText(`⚠ Konten File *${fileName}* Terlalu Panjang (${fileContent.length} Karakter).`);
-      // }
-
-      const response = `${fileContent}`;
-
-      await LenwyText(response);
+      await LenwyText(fileContent);
       return;
     }
 
@@ -1165,10 +970,7 @@ export default async function handler(leni) {
       let files = [];
 
       items.forEach((item) => {
-        if (item.name.toLowerCase() === ".env") {
-          return;
-        }
-
+        if (item.name.toLowerCase() === ".env") return;
         if (item.isDirectory()) {
           folders.push(`📁 ${item.name}`);
         } else {
@@ -1182,7 +984,6 @@ export default async function handler(leni) {
       if (files.length > 0) {
         response += `*Files (${files.length}):*\n${files.join("\n")}`;
       }
-
       if (folders.length === 0 && files.length === 0) {
         response += "*(Direktori kosong atau hanya berisi file tersembunyi)*";
       }
@@ -1194,59 +995,43 @@ export default async function handler(leni) {
     LenwyText(`❌ Tipe path tidak didukung. Harap tentukan File atau Folder.`);
   } catch (error) {
     console.error("Error DIR Command:", error);
-    LenwyText(
-      `❌ Gagal membaca path. Pastikan path benar dan bot memiliki izin.\nDetail: ${error.message}`,
-    );
+    LenwyText(`❌ Gagal membaca path. Pastikan path benar dan bot memiliki izin.\nDetail: ${error.message}`);
   }
 }
 ```
 
-**[+] Karena command sudah ditentukan oleh metadata :**
-```js
-case: ["tt", "ttdl", "tiktok"]
-```
-Maka semua command tersebut akan langsung menjalankan handler yang sama.
+**[+] Keuntungan metode ini:**
+* Kode lebih pendek dan mudah dibaca
+* Cocok untuk fitur dengan logika tunggal
 
-**[+] Keuntungan metode ini :**
+Kedua template sepenuhnya kompatibel dengan sistem bot. Developer bebas memilih metode yang paling sesuai dengan kebutuhan fitur yang dibuat — keduanya tidak akan menyebabkan error.
 
-* Kode lebih pendek
-* Lebih sederhana
-* Cocok untuk fitur tunggal
-
-Keduanya sepenuhnya kompatibel dengan sistem bot dan tidak akan menyebabkan error.
-
-Developer bebas memilih metode yang paling sesuai dengan kebutuhan fitur yang dibuat.
+---
 
 ## 🎁 **Informasi Developer**
-**Author : Lenwy**  
-**Youtube : Lenwy**  
-**Instagram : @ilenwy_**
+
+**Author :** Lenwy  
+**Youtube :** Lenwy  
+**Instagram :** @ilenwy_
+
+---
 
 ## 🤝 **Kontribusi**
-Kontribusi selalu terbuka! Jika anda ingin meningkatkan base ini, silakan lakukan fork dan ajukan pull request.
 
-## **License**
+Kontribusi selalu terbuka! Jika anda ingin meningkatkan base ini, silakan lakukan fork pada repositori ini dan ajukan pull request dengan perubahan yang kamu buat.
+
+---
+
+## 📄 **License**
 
 MIT License
 
 Copyright (c) 2026 Lenwy
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #### **Copyright © 2026 Lenwy**
