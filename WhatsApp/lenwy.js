@@ -192,6 +192,10 @@ export default async (lenwy, m, meta) => {
   const sender = authJid;
   const normalizedSender = jidNormalizedUser(sender);
 
+  const senderJid = sender
+    ? sender.split(":")[0].split("@")[0] // Ambil Nomor Saja
+    : null;
+
   // console.log(chalk.yellow(`[DEBUG JID] Sender Original: ${originalSender}`));
   // console.log(chalk.yellow(`[DEBUG JID] Sender Auth (PN): ${sender}`));
   // console.log(chalk.green(`[DEBUG JID] Sender Normal: ${normalizedSender}`));
@@ -220,22 +224,6 @@ export default async (lenwy, m, meta) => {
     },
   };
 
-  let usedPrefix = null;
-  for (const pre of globalThis.prefix) {
-    if (body.startsWith(pre)) {
-      usedPrefix = pre;
-      break;
-    }
-  }
-  if (!usedPrefix && !globalThis.noprefix) return;
-
-  const args = usedPrefix
-    ? body.slice(usedPrefix.length).trim().split(" ")
-    : body.trim().split(" ");
-
-  const command = args.shift().toLowerCase();
-  const q = args.join(" ");
-
   // Custom Reply
   const lenwyreply = (teks) =>
     lenwy.sendMessage(replyJid, { text: teks }, { quoted: len });
@@ -246,14 +234,11 @@ export default async (lenwy, m, meta) => {
   // Deteksi Grup & Admin
   const isGroup = replyJid.endsWith("@g.us");
 
-  // Hanya Private
-  const IsPriv = !isGroup;
-
   // Bot Admin
   let isAdmin = false;
   let isBotAdmin = false;
 
-  const GROUP_CACHE_TTL = 1 * 1000; // 5 Detik
+  const GROUP_CACHE_TTL = 10 * 1000; // 10 Detik
 
   if (isGroup) {
     let metadataData = groupMetadataCache.get(replyJid);
@@ -261,10 +246,7 @@ export default async (lenwy, m, meta) => {
     if (!metadataData || Date.now() - metadataData.time > GROUP_CACHE_TTL) {
       try {
         const metadata = await lenwy.groupMetadata(replyJid);
-        groupMetadataCache.set(replyJid, {
-          data: metadata,
-          time: Date.now(),
-        });
+        groupMetadataCache.set(replyJid, { data: metadata, time: Date.now() });
         metadataData = groupMetadataCache.get(replyJid);
       } catch (e) {
         console.error("Gagal mengambil metadata grup:", e);
@@ -276,25 +258,42 @@ export default async (lenwy, m, meta) => {
     if (metadata) {
       const participants = metadata.participants;
 
-      const userParticipant = participants.find(
-        (p) => p.id === msg.key.participant,
-      );
+      // Deteksi Format JID
+      const isLidGroup = participants.some((p) => p.id.endsWith("@lid"));
+
+      const normalizeJid = (jid) => {
+        if (!jid) return "";
+        return jid.split(":")[0].split("@")[0] + "@s.whatsapp.net";
+      };
+
+      let botJidForSearch;
+
+      if (isLidGroup) {
+        const rawLid = lenwy.user?.lid ?? lenwy.user?.id;
+        botJidForSearch = rawLid.split(":")[0].split("@")[0] + "@lid";
+      } else {
+        botJidForSearch = normalizeJid(lenwy.user.id);
+      }
+
+      const senderJidClean = msg.key.participant ?? "";
+      const userParticipant = participants.find((p) => p.id === senderJidClean);
+
       if (userParticipant) {
         isAdmin =
           userParticipant.admin === "admin" ||
           userParticipant.admin === "superadmin";
       }
 
-      const botJid = jidNormalizedUser(lenwy.user.id);
-      const botParticipant = participants.find((p) => p.id === botJid);
+      const botParticipant = participants.find((p) => p.id === botJidForSearch);
 
-      if (botParticipant) {
-        isBotAdmin =
-          botParticipant.admin === "admin" ||
-          botParticipant.admin === "superadmin";
-      } else {
-        isBotAdmin = false;
-      }
+      isBotAdmin =
+        botParticipant?.admin === "admin" ||
+        botParticipant?.admin === "superadmin" ||
+        false;
+
+      // console.log("[BOT SEARCH JID]", botJidForSearch);
+      // console.log("[BOT PARTICIPANT]", botParticipant);
+      // console.log("[IS BOT ADMIN]", isBotAdmin);
     }
   }
 
@@ -319,25 +318,54 @@ export default async (lenwy, m, meta) => {
   const isLenwy = isCreatorArray.includes(normalizedSender);
 
   // Delete Message
-  async function deleteMessage(lenwy, jid, msgKey, tag = "DELETE") {
+  async function deleteMessage(msgKey, tag = "DELETE") {
     if (!msgKey) return;
     try {
-      await lenwy.sendMessage(jid, {
+      await lenwy.sendMessage(replyJid, {
         delete: {
-          remoteJid: jid,
+          remoteJid: replyJid,
           fromMe: msgKey.fromMe ?? true,
           id: msgKey.id,
           participant: msgKey.participant || undefined,
         },
       });
-      console.log(
-        chalk.red.bold(`[${tag}]`),
-        `Pesan Lama Dihapus (${msgKey.id})`,
-      );
+      console.log(chalk.red.bold(`[${tag}]`), `Pesan Dihapus (${msgKey.id})`);
     } catch (err) {
       console.error(`[${tag}] Gagal hapus pesan:`, err);
     }
   }
+
+  // Antilink
+  if (isGroup && isBotAdmin) {
+    const { runAntilinkCheck } = await import("./case/group/antilink.js");
+    const deleted = await runAntilinkCheck({
+      lenwy,
+      msg,
+      body,
+      replyJid,
+      isAdmin,
+      isLenwy,
+      isBotAdmin,
+      deleteMessage,
+    });
+    if (deleted) return;
+  }
+
+  let usedPrefix = null;
+  for (const pre of globalThis.prefix) {
+    if (body.startsWith(pre)) {
+      usedPrefix = pre;
+      break;
+    }
+  }
+  if (!usedPrefix && !globalThis.noprefix) return;
+
+  const args = usedPrefix
+    ? body.slice(usedPrefix.length).trim().split(" ")
+    : body.trim().split(" ");
+
+  const command = args.shift().toLowerCase();
+  const q = args.join(" ");
 
   // Helper
   const LenwyText = (text) =>
@@ -550,6 +578,7 @@ export default async (lenwy, m, meta) => {
     msg,
     len,
     replyJid,
+    senderJid,
     lenwyreply,
     LenwyText,
     LenwyWait,
@@ -565,5 +594,6 @@ export default async (lenwy, m, meta) => {
     plugins,
     commands,
     normalizedSender,
+    deleteMessage,
   });
 };
