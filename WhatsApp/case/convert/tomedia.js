@@ -14,7 +14,7 @@
 
 */
 
-import sharp from "sharp";
+import { spawn } from 'child_process';
 import { downloadContentFromMessage } from "@whiskeysockets/baileys";
 
 export const info = {
@@ -61,10 +61,52 @@ export default async function handler(leni) {
         try {
           const buffer = await downloadSticker(quotedMsg.stickerMessage);
 
-          const image = await sharp(buffer).png().toBuffer();
+          let out = Buffer.alloc(0);
+
+          // Convert sticker to image using ffmpeg
+          // So we dont need sharp anymore.
+          out = await new Promise((resolve, reject) => {
+            const proc = spawn("ffmpeg", [
+              "-i", "pipe:0",
+              "-vcodec", "png",
+              "-f", "image2pipe",
+              "-vframes", "1",
+              "pipe:1"
+            ]);
+
+            const chunks = [];
+            
+            proc.stdout.on('data', (chunk) => {
+              chunks.push(chunk);
+            });
+
+            proc.stderr.on('data', (data) => {
+              console.error('FFmpeg stderr:', data.toString());
+            });
+
+            proc.on('close', (code) => {
+              if (code !== 0) {
+                reject(new Error(`FFmpeg process exited with code ${code}`));
+              } else {
+                const buffer = Buffer.concat(chunks);
+                if (buffer.length === 0) {
+                  reject(new Error("Conversion failed - empty output"));
+                } else {
+                  resolve(buffer);
+                }
+              }
+            });
+
+            proc.on('error', (err) => {
+              reject(err);
+            });
+
+            proc.stdin.write(buffer);
+            proc.stdin.end();
+          });
 
           await lenwy.sendMessage(replyJid, {
-            image,
+            image: out,
             caption: "🎁 Sticker Berhasil Diubah Menjadi Gambar",
           });
         } catch (err) {
