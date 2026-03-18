@@ -21,7 +21,7 @@ import { downloadContentFromMessage } from "@whiskeysockets/baileys";
 export const info = {
   name: "AI Media",
 
-  menu: ["AI"],
+  menu: ["Hd"],
   case: ["hd", "remini"],
 
   description: "AI Untuk Media Seperti Photo",
