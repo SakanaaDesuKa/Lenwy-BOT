@@ -1,7 +1,5 @@
 {
-  "disable": [
-    "toimage"
-  ],
+  "disable": [],
   "maintenance": [
     "qris"
   ]
