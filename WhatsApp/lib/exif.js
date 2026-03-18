@@ -18,12 +18,8 @@ import fs from "fs";
 import { tmpdir } from "os";
 import Crypto from "crypto";
 import ff from "fluent-ffmpeg";
-import ffmpegInstaller from "@ffmpeg-installer/ffmpeg";
 import webp from "node-webpmux";
 import path from "path";
-
-const ffmpegPath = ffmpegInstaller.path;
-ff.setFfmpegPath(ffmpegPath);
 
 export async function imageToWebp(media) {
   const tmpFileOut = path.join(
