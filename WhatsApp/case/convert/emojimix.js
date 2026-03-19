@@ -1,17 +1,15 @@
-/*
-
-     Create: Shannyie
-     Telegram: t.me/Shannyiee
-
-*/
+import fs from "fs";
+import path from "path";
+import ffmpeg from "fluent-ffmpeg";
+import webp from "node-webpmux";
 
 export const info = {
   name: "Emoji Mix",
 
   menu: ["Convert"],
-  case: ["emojimix", "emix"],
+  case: ["emojimix", "mix"],
 
-  description: "Gabungkan Dua Emoji Menjadi Satu!",
+  description: "Gabungkan Dua Emoji Menjadi Sticker!",
   hidden: false,
 
   owner: false,
@@ -25,52 +23,116 @@ export const info = {
 };
 
 export default async function handler(leni) {
-  const { command, q, LenwyText, LenwyWait, LenwyImage, lenwy, replyJid, len } = leni;
+  const { command, q, msg, lenwy, replyJid, LenwyText } = leni;
 
   switch (command) {
     case "emojimix":
-    case "emix": {
-      if (!q) return LenwyText("😵 *Contoh:* .emojimix 😊 😔");
+    case "mix": {
 
-      const args = q.trim().split(/\s+/);
-      if (args.length < 2) return LenwyText("😵 *Masukkan 2 Emoji!*\n*Contoh:* .emojimix 😊 😔");
+      if (!q)
+        return LenwyText(
+          `👻 Format salah!\n\n*Cara pakai:*\n.emojimix 😭+🔥\n.emojimix 😭 🔥\n.emojimix 😭🔥`
+        );
 
-      const emoji1 = args[0];
-      const emoji2 = args[1];
+      // Parse emoji pakai Intl.Segmenter
+      const input = q.replace(/\+/g, "").replace(/\s/g, "");
+      const segmenter = new Intl.Segmenter("en", { granularity: "grapheme" });
+      const emojis = Array.from(segmenter.segment(input)).map((s) => s.segment);
 
-      LenwyWait();
+      if (emojis.length < 2)
+        return LenwyText("👻 Masukkan minimal 2 emoji!\n*Contoh:* .emojimix 😭🔥");
+
+      const emoji1 = emojis[0];
+      const emoji2 = emojis[1];
+
+      await lenwy.sendMessage(replyJid, { react: { text: "⏳", key: msg.key } });
 
       try {
-        const url = `https://shiny-beta-six.vercel.app/api/tools/emojimix?emoji1=${encodeURIComponent(emoji1)}&emoji2=${encodeURIComponent(emoji2)}`;
+        const apiUrl = `https://shiny-beta.vercel.app/tools/emojimix?emoji1=${encodeURIComponent(emoji1)}&emoji2=${encodeURIComponent(emoji2)}`;
 
-        const res = await fetch(url);
-
-        if (!res.ok) return LenwyText("⚠️ *Gagal Menggabungkan Emoji. Coba Emoji Lain!*");
-
+        const res = await fetch(apiUrl);
         const contentType = res.headers.get("content-type");
 
-        if (contentType && contentType.includes("image")) {
-          const buffer = Buffer.from(await res.arrayBuffer());
+        let imageBuffer;
 
-          await lenwy.sendMessage(
-            replyJid,
-            {
-              image: buffer,
-              caption: `✨ *Emoji Mix*\n\n${emoji1} + ${emoji2} = 🎉`,
-            },
-            { quoted: len }
-          );
-        } else {
+        if (contentType && contentType.includes("application/json")) {
           const json = await res.json();
-          if (json?.url) {
-            await LenwyImage(json.url, `✨ *Emoji Mix*\n\n${emoji1} + ${emoji2} = 🎉`);
-          } else {
-            LenwyText("⚠️ *Format Respon Tidak Dikenali.*");
-          }
+          const imageUrl = json.result || json.url || json.data;
+          if (!imageUrl) throw new Error("Kombinasi emoji ini tidak didukung.");
+          const imgRes = await fetch(imageUrl);
+          imageBuffer = Buffer.from(await imgRes.arrayBuffer());
+        } else {
+          imageBuffer = Buffer.from(await res.arrayBuffer());
         }
+
+        if (!res.ok && !imageBuffer?.length)
+          throw new Error("404");
+
+        await lenwy.sendMessage(replyJid, { react: { text: "📥", key: msg.key } });
+
+        // Tmp files
+        const tmpIn  = path.join(process.cwd(), `tmp_${Date.now()}_emojimix.png`);
+        const tmpOut = path.join(process.cwd(), `tmp_${Date.now()}_emojimix.webp`);
+
+        fs.writeFileSync(tmpIn, imageBuffer);
+
+        // Convert ke WebP via ffmpeg
+        await new Promise((resolve, reject) => {
+          ffmpeg(tmpIn)
+            .on("error", reject)
+            .on("end", resolve)
+            .addOutputOptions([
+              "-vcodec", "libwebp",
+              "-vf", "scale=512:512:force_original_aspect_ratio=decrease,format=rgba,pad=512:512:(ow-iw)/2:(oh-ih)/2:color='#00000000'",
+            ])
+            .toFormat("webp")
+            .save(tmpOut);
+        });
+
+        // Inject EXIF metadata
+        const img = new webp.Image();
+        await img.load(tmpOut);
+
+        const json = {
+          "sticker-pack-id": "lenwy-scm-mix",
+          "sticker-pack-name": globalThis.spackname || "Lenwy SCM",
+          "sticker-pack-publisher": globalThis.sauthor || "Lenwy",
+          emojis: [emoji1, emoji2],
+        };
+
+        const exifAttr = Buffer.from([
+          0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00,
+          0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00,
+          0x00, 0x00, 0x16, 0x00, 0x00, 0x00,
+        ]);
+        const jsonBuff = Buffer.from(JSON.stringify(json), "utf-8");
+        const exif = Buffer.concat([exifAttr, jsonBuff]);
+        exif.writeUIntLE(jsonBuff.length, 14, 4);
+
+        img.exif = exif;
+        const finalBuffer = await img.save(null);
+
+        await lenwy.sendMessage(replyJid, { sticker: finalBuffer }, { quoted: msg });
+        await lenwy.sendMessage(replyJid, { react: { text: "✨", key: msg.key } });
+
       } catch (err) {
-        console.error("EmojiMix Error:", err);
-        LenwyText(globalThis.mess.error);
+        console.error("[EMOJIMIX ERROR]", err.message);
+        await lenwy.sendMessage(replyJid, { react: { text: "❌", key: msg.key } });
+
+        if (
+          err.message.includes("404") ||
+          err.message.includes("tidak didukung") ||
+          err.response?.status === 404
+        ) {
+          LenwyText(`👻 Kombinasi ${emoji1} + ${emoji2} belum ada. Coba kombinasi lain!`);
+        } else {
+          LenwyText(`👻 Gagal memproses emojimix!\n${err.message}`);
+        }
+      } finally {
+        // Cleanup tmp files
+        const tmpIn  = path.join(process.cwd(), `tmp_*_emojimix.png`);
+        const tmpOut = path.join(process.cwd(), `tmp_*_emojimix.webp`);
+        try { fs.readdirSync(process.cwd()).filter(f => f.includes("emojimix")).forEach(f => fs.unlinkSync(path.join(process.cwd(), f))); } catch {}
       }
 
       break;
