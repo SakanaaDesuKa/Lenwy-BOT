@@ -10,7 +10,7 @@ import fs from "fs";
 import path from "path";
 import { performance } from "perf_hooks";
 import { execSync } from "child_process";
-import Jimp from "jimp";
+import * as Jimp from 'jimp';
 
 // --- COLOR PALETTE ---
 const THEME = {
