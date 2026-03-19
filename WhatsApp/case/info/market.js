@@ -8,7 +8,7 @@
 export const info = {
   name: "Market Tracker",
 
-  menu: ["Info"],
+  menu: ["Market"],
   case: ["market", "pasar", "crypto", "forex"],
 
   description: "Cek Harga Crypto & Forex Real-Time",
