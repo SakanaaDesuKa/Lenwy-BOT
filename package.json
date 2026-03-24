@@ -20,7 +20,7 @@
     "express": "5.1.0",
     "figlet": "^1.6.0",
     "fluent-ffmpeg": "^2.1.2",
-    "form-data": "4.0.5",
+    "form-data": "^4.0.5",
     "fs": "^0.0.1-security",
     "https": "^1.0.0",
     "jimp": "^1.6.0",
