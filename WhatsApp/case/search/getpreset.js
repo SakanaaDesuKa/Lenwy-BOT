@@ -90,7 +90,7 @@ export default async function handler(leni) {
 
     let caption = `*Random Preset Alight Motion*\n\n`;
     if (title) caption += `*${title}*\n\n`;
-    caption += `*Creadit :* ${editby}\n`;
+    caption += `*Credit :* ${editby}\n`;
     caption += `*Preset 5mb/5mb+ :* ${presetLink}\n\n`;
     if (xmlLink) caption += `*XML :* ${xmlLink}\n\n`;
     caption += `*Source :* ${sourceUrl}\n`;
