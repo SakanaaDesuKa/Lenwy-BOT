@@ -117,10 +117,21 @@ globalThis.tgOwner = ["AMBIL DARI @userinfobot"];
 
 > **Catatan:** Kamu perlu mengganti `token` dan `id` terlebih dahulu sebelum menjalankan bot telegram. Kamu bisa mendapatkan `token` melalui `@BotFather` dan `id` melalui `@userinfobot` di telegram.
 
-Setelah `token` dan `id` terisi, jalankan bot dengan perintah berikut:
+Selanjutnya kamu perlu mengaktifkan bot telegram pada file berikut:
+```js
+// LenwySet.js
+const config = {
+  whatsapp: false,
+  telegram: true, // Aktif
+};
+```
+> **Catatan:** Kamu bisa memilih bot mana yang ingin diaktifkan. Gunakan `true` untuk mengaktifkan dan `false` untuk menonaktifkan. Kamu juga bisa menjalankan kedua bot secara bersamaan.
+
+Setelah semuanya selesai, jalankan bot dengan perintah berikut:
 ```
 npm start
 ```
+> **Catatan:** Cari username bot telegram yang baru dibuat dan tekan tombol `start` untuk memulai percakapan.
 ---
 
 
