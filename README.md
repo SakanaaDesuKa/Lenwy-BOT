@@ -19,30 +19,32 @@ Dengan memecah sistem **switch case** menjadi modul-modul terpisah, struktur kod
 ## 📚 **Table of Contents**
 
 * [Instalasi](#-instalasi)
-  * [[A] Install FFmpeg](#a-install-ffmpeg)
-  * [[B] Clone Repositori](#b-clone-repositori)
-  * [[C] Masuk Ke Direktori](#c-masuk-ke-direktori)
-  * [[D] Install Dependencies](#d-install-dependencies)
-  * [[E] Jalankan Script](#e-jalankan-script)
+  * [Install FFmpeg](#a-install-ffmpeg)
+  * [Clone Repositori](#b-clone-repositori)
+  * [Masuk Ke Direktori](#c-masuk-ke-direktori)
+  * [Install Dependencies](#d-install-dependencies)
+* [Start](#-start)
+  * [Bot WhatsApp](#a-bot-whatsapp)
+  * [Bot Telegram](#b-bot-telegram)
 * [Update](#-update)
-  * [[A] Update Semua File](#a-update-semua-file-tanpa-menghapus-file-yang-dikembangkan)
-  * [[B] Update File Tertentu Saja](#b-update-file-tertentu-saja)
+  * [Update Semua File](#a-update-semua-file-tanpa-menghapus-file-yang-dikembangkan)
+  * [Update File Tertentu Saja](#b-update-file-tertentu-saja)
 * [Struktur Folder](#-struktur-folder)
 * [Bagaimana Cara Kerjanya](#-bagaimana-cara-kerjanya)
-  * [[A] Cara Memanggil Menu](#a-cara-memanggil-menu)
-  * [[B] Bagaimana Fitur Ditampilkan](#b-bagaimana-fitur-ditampilkan)
-  * [[C] Filter Label](#c-bot-juga-akan-melakukan-beberapa-filter)
+  * [Cara Memanggil Menu](#a-cara-memanggil-menu)
+  * [Bagaimana Fitur Ditampilkan](#b-bagaimana-fitur-ditampilkan)
+  * [Filter Label](#c-bot-juga-akan-melakukan-beberapa-filter)
 * [Fitur Utama](#-fitur-utama)
-  * [1. Modular Architecture](#-1--modular-architecture)
-  * [2. Multi-Platform Ready](#-2--multi-platform-ready)
-  * [3. Pairing Code Login](#-3--pairing-code-login)
-  * [4. Global Variable Management](#-4--global-variable-management)
-  * [5. Session Manager](#-5--session-manager)
-  * [6. Dynamic Command Registry](#-6--dynamic-command-registry)
-  * [7. Metadata Driven](#-7--metadata-driven)
-  * [8. Helper Function System](#-8--helper-function-system)
-  * [9. Label System](#-9--label-system)
-  * [10. Struktur Fitur](#-10--struktur-fitur)
+  * [Modular Architecture](#-1--modular-architecture)
+  * [Multi-Platform Ready](#-2--multi-platform-ready)
+  * [Pairing Code Login](#-3--pairing-code-login)
+  * [Global Variable Management](#-4--global-variable-management)
+  * [Session Manager](#-5--session-manager)
+  * [Dynamic Command Registry](#-6--dynamic-command-registry)
+  * [Metadata Driven](#-7--metadata-driven)
+  * [Helper Function System](#-8--helper-function-system)
+  * [Label System](#-9--label-system)
+  * [Struktur Fitur](#-10--struktur-fitur)
 * [Informasi Developer](#-informasi-developer)
 * [Kontribusi](#-kontribusi)
 
@@ -89,7 +91,11 @@ npm install
 
 > **Catatan:** Proses ini membutuhkan koneksi internet. Tunggu hingga selesai sebelum melanjutkan ke langkah berikutnya.
 
-#### **[E] Jalankan Script**
+---
+
+## 📑 **Start**
+
+#### **[A] Bot WhatsApp**
 
 Setelah semua dependencies terpasang, jalankan bot dengan perintah berikut:
 ```
@@ -99,6 +105,24 @@ npm start
 > **Catatan:** Saat pertama kali dijalankan, bot akan meminta nomor WhatsApp untuk proses login menggunakan pairing code. Masukkan nomor yang diawali dengan `62` (tanpa tanda `+`).
 
 ---
+
+#### **[B] Bot Telegram**
+
+Setelah semua dependencies terpasang, kamu perlu mengganti `token` dan `id` pada file berikut:
+```js
+// Telegram/len.js
+globalThis.tgToken = "AMBIL DARI BOT FATHER";
+globalThis.tgOwner = ["AMBIL DARI @userinfobot"];
+```
+
+> **Catatan:** Kamu perlu mengganti `token` dan `id` terlebih dahulu sebelum menjalankan bot telegram. Kamu bisa mendapatkan `token` melalui `@BotFather` dan `id` melalui `@userinfobot` di telegram.
+
+Setelah `token` dan `id` terisi, jalankan bot dengan perintah berikut:
+```
+npm start
+```
+---
+
 
 ## 📑 **Update**
 
